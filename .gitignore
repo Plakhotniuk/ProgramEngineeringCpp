@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+ButtonCallback/build
+.DS_Store
