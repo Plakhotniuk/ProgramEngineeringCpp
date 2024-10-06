@@ -12,12 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     qDebug() << "Application started successfully!";
 
-#ifdef QT_DEBUG
-    qDebug() << "This is a debug build.";
-#else
-    qDebug() << "This is a release build.";
-#endif
-
     connect(ui->button_get, &QPushButton::clicked, this, &MainWindow::onButtonClicked);
 
     connect(ui->button_reset, &QPushButton::clicked, this, &MainWindow::onResetClicked);
