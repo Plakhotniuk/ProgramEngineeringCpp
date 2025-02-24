@@ -11,8 +11,7 @@ void foo()
 
 int main() 
 {
-    logger::Logger my_logger{};
+    logger::Logger my_logger;
 
     foo();
-
 }

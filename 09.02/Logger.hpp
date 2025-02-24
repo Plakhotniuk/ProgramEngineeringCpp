@@ -14,6 +14,16 @@ namespace logger {
 class Logger 
 {
 public:
+    static void log(const std::string_view message, const std::source_location& location = std::source_location::current())
+    {
+        std::clog << "file: "
+                << location.file_name() << '('
+                << location.line() << ':'
+                << location.column() << ") `"
+                << location.function_name() << "`: "
+                << message << '\n';
+    }
+
     Logger(const std::source_location& location = std::source_location::current()): location_(location) 
     { 
         log("Function entry", location_); 
@@ -24,15 +34,8 @@ public:
         log("Function exit", location_); 
     }
 
-    static void log(const std::string_view message, const std::source_location& location = std::source_location::current())
-    {
-        std::clog << "file: "
-                << location.file_name() << '('
-                << location.line() << ':'
-                << location.column() << ") `"
-                << location.function_name() << "`: "
-                << message << '\n';
-    }
+    Logger(const Logger&) = delete;
+    Logger& operator=(const Logger&) = delete;
 
 private:
     std::source_location location_;
