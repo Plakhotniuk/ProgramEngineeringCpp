@@ -30,7 +30,6 @@ public:
         static_assert(noexcept(rollback_func()), "The rollback function must be noexcept");
     }
 
-    // Деструктор вызывает функцию отката, если не был вызван dismiss()
     ~ScopeGuard() {
         if (need_rollback_) {
             rollback_func_();
