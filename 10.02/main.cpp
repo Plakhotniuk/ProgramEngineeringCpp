@@ -48,18 +48,23 @@ void setManualCapacity() {
 void setTooMuchCapacity() {
     std::vector<int> data;
 
-    size_t stopSz = 100;
-
-    data.reserve(100'000'000);
+    // Добавляем элементы, пока не закончится память
+    try {
+        while (true) {
+            data.push_back(1);
+        }
+    } catch (const std::bad_alloc& e) {
+        std::cerr << "Ошибка выделения памяти: " << e.what() << std::endl;
+    }
 
     std::ofstream vectorSizeCapacityFile("setTooMuchCapacity.txt");
 
-    for (size_t i = 0; i < stopSz; ++i) {
-        data.push_back(1);
-        vectorSizeCapacityFile << data.size() << " " << data.capacity() <<std::endl;
-    }
+    vectorSizeCapacityFile << "Размер вектора: " << data.size() << std::endl;
+    vectorSizeCapacityFile << "Емкость вектора: " << data.capacity() << std::endl;
+
     vectorSizeCapacityFile.close();
-    // Из полученных данных видно, что capacity увеличивается до доступного в памяти значения 
+    // Из полученных данных видно, что если же ОС не может выделить кусок памяти нужного нам размера, 
+    // то выбрасывается исключение std::bad_alloc 
 }
 
 
