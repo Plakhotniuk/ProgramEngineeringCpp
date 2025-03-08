@@ -30,9 +30,9 @@ std::vector<std::string> genUniqueStrVec(size_t str_len, size_t str_count)
 {
     std::set<std::string> result;
 
-    for (size_t i; i < str_count; ++i) 
+    for (size_t i = 0; i < str_count; ++i) 
     {
-        result.emplace(generateRandomString(str_len));
+        result.insert(generateRandomString(str_len));
     }
 
     return {result.begin(), result.end()};

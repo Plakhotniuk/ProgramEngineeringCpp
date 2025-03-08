@@ -31,7 +31,7 @@ unsigned int JSHash(const char* str, unsigned int length)
    return hash;
 }
 
-int PJWHash(const char* str, unsigned int length)
+unsigned int PJWHash(const char* str, unsigned int length)
 {
    const unsigned int BitsInUnsignedInt = (unsigned int)(sizeof(unsigned int) * 8);
    const unsigned int ThreeQuarters     = (unsigned int)((BitsInUnsignedInt  * 3) / 4);

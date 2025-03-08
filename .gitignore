@@ -31,6 +31,6 @@
 *.out
 *.app
 
-ButtonCallback/build
 .DS_Store
 .vscode
+build
