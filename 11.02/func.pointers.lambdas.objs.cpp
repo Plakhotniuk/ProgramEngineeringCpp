@@ -21,6 +21,7 @@
 
 #include "sort.algorithm.hpp"
 
+namespace {
 
 bool compare_greater(int a, int b) {
     return a > b;
@@ -28,6 +29,16 @@ bool compare_greater(int a, int b) {
 
 bool compare_less(int a, int b) {
     return a < b;
+}
+
+struct FunctorLess {
+	bool operator()(int a, int b) const { return a < b; };
+};
+
+struct FunctorGreater {
+	bool operator()(int a, int b) const { return a > b; };
+};
+
 }
 
 
@@ -43,16 +54,19 @@ int main()
 	}
 
     {
-        // использование собственных критериев сортировки по возрастанию и по убыванию
-        sort::timsort(vector, compare_greater);
-        assert(std::ranges::is_sorted(vector));
+        bool (*comp_func)(int, int);  // определение указателя на функцию сравнения двух int-ов
+        // передаем указатели (имена функций) критериев сортировки
+        comp_func = compare_greater;
+        sort::timsort(vector, comp_func);
+        assert(std::ranges::is_sorted(vector, comp_func));
 
-        sort::timsort(vector, compare_less);
-        assert(std::ranges::is_sorted(vector, compare_less));
+        comp_func = compare_less;
+        sort::timsort(vector, comp_func);
+        assert(std::ranges::is_sorted(vector, comp_func));
     }
 
     {
-        /// критерий сортировки через лямбды
+        /// критерии сравнения через лямбды
         auto comp_less_l = [](int a, int b) { return a < b; };
         auto comp_great_l = [](int a, int b) { return a > b; };
 
@@ -61,6 +75,23 @@ int main()
 
         sort::timsort(vector, comp_less_l);
         assert(std::ranges::is_sorted(vector, comp_less_l));
+    }
 
+    {
+        // использование std::greater, less
+        sort::timsort(vector, std::greater());
+        assert(std::ranges::is_sorted(vector, std::ranges::greater()));
+
+        sort::timsort(vector, std::ranges::less());
+        assert(std::ranges::is_sorted(vector, std::ranges::less()));
+    }
+
+    {
+        // использование функционального объекта
+        sort::timsort(vector, FunctorGreater{});
+        assert(std::ranges::is_sorted(vector, FunctorGreater{}));
+
+        sort::timsort(vector, FunctorLess{});
+        assert(std::ranges::is_sorted(vector, FunctorLess{}));
     }
 }

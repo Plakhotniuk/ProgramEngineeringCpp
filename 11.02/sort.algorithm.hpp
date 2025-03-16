@@ -10,15 +10,14 @@
 
 namespace sort {
 
-
 template <typename F>
-void sort(std::vector < int > & vector, std::size_t left, std::size_t right, F && compare_func)
+void sort(std::vector < int > & vector, std::size_t left, std::size_t right, F compare_func)
 {
 	for (auto i = left + 1; i < right; ++i)
 	{
 		for (auto j = i; j > left; --j)
 		{
-			if (compare_func(vector[j - 1], vector[j])) 
+			if (!compare_func(vector[j - 1], vector[j])) 
 			{
 				std::swap(vector[j], vector[j - 1]);
 			}
@@ -27,14 +26,14 @@ void sort(std::vector < int > & vector, std::size_t left, std::size_t right, F &
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-
-void merge(std::vector < int > & vector, std::size_t left, std::size_t middle, std::size_t right)
+template <typename F>
+void merge(std::vector < int > & vector, std::size_t left, std::size_t middle, std::size_t right, F compare_func)
 {
 	std::vector < int > buffer(right - left, 0);
 
 	for (auto i = left, j = middle, k = 0uz; k < std::size(buffer); ++k) 
 	{
-		if (i < middle && ((j < right && vector[i] <= vector[j]) || j == right))
+		if (i < middle && ((j < right && compare_func(vector[i], vector[j])) || j == right))
 		{
 			buffer[k] = vector[i++];
 		}
@@ -53,7 +52,7 @@ void merge(std::vector < int > & vector, std::size_t left, std::size_t middle, s
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename F>
-void split(std::vector < int > & vector, std::size_t left, std::size_t right, F && compare_func)
+void split(std::vector < int > & vector, std::size_t left, std::size_t right, F compare_func)
 {
 	if (right - left <= 64)
 	{
@@ -63,17 +62,17 @@ void split(std::vector < int > & vector, std::size_t left, std::size_t right, F 
 	{
 		auto middle = std::midpoint(left, right);
 		
-		split(vector, left, middle, compare_func       );
+		split(vector, left, middle,        compare_func);
 		
 		split(vector,       middle, right, compare_func);
 
-		merge(vector, left, middle, right);
+		merge(vector, left, middle, right, compare_func);
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename F>
-void timsort(std::vector < int > & vector, F && compare_func)
+void timsort(std::vector < int > & vector, F compare_func)
 {
 	split(vector, 0, std::size(vector), compare_func);
 }
