@@ -5,24 +5,25 @@
 #include <iostream>
 #include <typeinfo>
 
+class FuncPtr_;
+typedef FuncPtr_ (*FuncPtr)();
 
-class Functor {
+class FuncPtr_ {
 public:
-    Functor* operator()() {
-        return this;
-    }
+    FuncPtr_(FuncPtr ptr): ptr_(ptr) {};
 
-    void test1() const {
-        std::cout << "test1 run" << std::endl;
-    }
+    FuncPtr operator()() { return ptr_; };
+
+private:
+    FuncPtr ptr_;
 };
 
+FuncPtr_ f () { return f; }
+
 int main() {
-    Functor functor; // наш посредник - функтор
 
-    Functor* ptr = functor(); // получили указатель на себя
+    FuncPtr_ p = f();
 
-    functor.test1(); // обычный вызов
+    p();
 
-    ptr->test1(); // вызов через указатель на себя
 }
