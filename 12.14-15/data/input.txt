@@ -1,0 +1,5 @@
+Valid emails: user@example.com, firstname.lastname@domain.co, email+filter@sub.domain.com, 
+123456@mail-archive.com, UPPER_CASE@Domain.Com, user@subdomain.example.com, 
+"spaces in quotes"@example.org, user@xn--d1acjlb.xn--p1ai, user@123.123.123.123, user@[IPv6:2001:db8::1].
+Invalid emails: plaintext, @missing-local-part.com, user@.missing-domain.com, user@domain..com,
+user@-invalid.com, user@in valid.com, user@invalid.c, user@invalid..com, user@in_valid.com, user@invalid.-com.
